@@ -1,4 +1,5 @@
 import csv
+import logging
 
 from .schema import Person
 
@@ -12,10 +13,10 @@ def validate_csv(path):
             errors = schema.validate(row)
 
             if 'birthdate' in errors:
-                print(f'{i} birthdate: ', errors['birthdate'])
+                logging.error(f"{i} birthdate: {', '.join(errors['birthdate'])}")
 
             if 'name' in errors:
-                print(f"{i} name:", errors['name'])
+                logging.error(f"{i} name: {', '.join(errors['name'])}")
 
             if not errors:
-                print(f"{i} success: {row['name']} is valid")
+                logging.debug(f"{i} success: {row['name']} is valid!")
