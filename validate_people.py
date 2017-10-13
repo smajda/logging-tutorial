@@ -11,7 +11,7 @@ logger.setLevel(logging.DEBUG)
 
 # let's add a custom StreamHandler
 stream_handler = logging.StreamHandler(stream=sys.stdout)
-stream_handler.setLevel(logging.DEBUG)
+stream_handler.setLevel(logging.ERROR)
 logger.addHandler(stream_handler)
 
 # and a FileHandler
