@@ -1,0 +1,4 @@
+Faker
+flake8
+ipython
+ipdb
