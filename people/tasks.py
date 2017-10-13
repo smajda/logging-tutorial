@@ -3,6 +3,8 @@ import logging
 
 from .schema import Person
 
+logger = logging.getLogger(__name__)
+
 
 def validate_csv(path):
     schema = Person()
@@ -13,10 +15,10 @@ def validate_csv(path):
             errors = schema.validate(row)
 
             if 'birthdate' in errors:
-                logging.error(f"{i} birthdate: {', '.join(errors['birthdate'])}")
+                logger.error(f"{i} birthdate: {', '.join(errors['birthdate'])}")
 
             if 'name' in errors:
-                logging.error(f"{i} name: {', '.join(errors['name'])}")
+                logger.error(f"{i} name: {', '.join(errors['name'])}")
 
             if not errors:
-                logging.debug(f"{i} success: {row['name']} is valid!")
+                logger.debug(f"{i} success: {row['name']} is valid!")
