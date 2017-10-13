@@ -1,8 +1,12 @@
 import argparse
 import logging
+import json
+import os
 import sys
 
 from os.path import abspath, dirname, join
+
+import requests
 
 from people.tasks import validate_csv
 
@@ -22,6 +26,29 @@ file_handler = logging.FileHandler(filename=join(abspath(dirname(__name__)), 'va
 file_handler.setLevel(logging.DEBUG)
 file_handler.setFormatter(formatter)
 logger.addHandler(file_handler)
+
+
+# how about a Slack handler?
+class SlackHandler(logging.Handler):
+    def __init__(self, webhook_url, *args, **kwargs):
+        self.webhook_url = webhook_url
+        super().__init__(*args, **kwargs)
+
+    def emit(self, record):
+        text = self.format(record)
+        data = {
+            'text': text,
+            # channel, username, icon, attachments, etc
+        }
+        requests.post(self.webhook_url, json.dumps(data))
+
+
+webhook_url = os.environ.get("SLACK_WEBHOOK_URL")
+if webhook_url:
+    slack_handler = SlackHandler(webhook_url=webhook_url)
+    slack_handler.setLevel(logging.ERROR)
+    slack_handler.setFormatter(formatter)
+    logger.addHandler(slack_handler)
 
 
 if __name__ == '__main__':
