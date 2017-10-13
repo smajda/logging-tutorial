@@ -9,6 +9,9 @@ from people.tasks import validate_csv
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
 
+# add a simple formatter
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+
 # let's add a custom StreamHandler
 stream_handler = logging.StreamHandler(stream=sys.stdout)
 stream_handler.setLevel(logging.ERROR)
@@ -17,6 +20,7 @@ logger.addHandler(stream_handler)
 # and a FileHandler
 file_handler = logging.FileHandler(filename=join(abspath(dirname(__name__)), 'validate_people.log'))
 file_handler.setLevel(logging.DEBUG)
+file_handler.setFormatter(formatter)
 logger.addHandler(file_handler)
 
 
