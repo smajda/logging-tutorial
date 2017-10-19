@@ -54,5 +54,10 @@ if webhook_url:
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('filepath', help='Path of file to import')
+    parser.add_argument("--verbose", "-v", action="count", default=0, help="increase verbosity")
     args = parser.parse_args()
+
+    loglevel = logging.ERROR - args.verbose * 10
+    stream_handler.setLevel(loglevel)
+
     validate_csv(args.filepath)
