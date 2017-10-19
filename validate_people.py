@@ -60,4 +60,7 @@ if __name__ == '__main__':
     loglevel = logging.ERROR - args.verbose * 10
     stream_handler.setLevel(loglevel)
 
-    validate_csv(args.filepath)
+    try:
+        validate_csv(args.filepath)
+    except Exception as exc:
+        logger.exception(str(exc))
